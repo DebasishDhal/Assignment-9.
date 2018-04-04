@@ -1,0 +1,129 @@
+#include<iostream>
+using namespace std;
+	class node
+{
+public:
+	int data;
+	node *parent;
+	node *right;
+	node *left;
+		node()
+		{
+		data=0;
+		parent=NULL;
+		right=NULL;
+		left=NULL;
+		}
+};
+
+
+class tree
+{	
+	public:
+	node *root;
+	tree(){
+		root = NULL;
+	      }
+	void insert(int x);
+	void display(node *root);
+	int count(node *temp,int no);
+	int range(node *temp,int k1,int k2,int no);
+};
+void tree::insert(int x)
+	{
+	node *temp=new node;
+	temp->data=x;
+	temp->right=NULL;
+	temp->left=NULL;
+	temp->parent=NULL;
+	node *current=root;
+	node *parent=NULL;
+		if(root==NULL)
+			{
+			root=temp;
+			}
+		else
+			{
+			while(1)
+				{
+				parent=current;
+					if(current->data>x)
+						{
+						current=current->left;
+						if(current==NULL)
+							{
+							temp->parent=parent;
+							parent->left=temp;
+							return;
+							}
+						}
+					else
+						{
+						current=current->right;
+						if(current==NULL)
+							{
+							temp->parent=parent;
+							parent->right=temp;
+							return;
+							}
+						}
+				}
+			}
+}
+void tree::display(node *temp)
+	{
+	if(temp==NULL)
+	   return;
+	display(temp->left);
+	cout<<temp->data<<" ";
+	display(temp->right);
+	}
+int tree::count(node *temp,int no)
+	{
+	 if(temp==NULL)
+		{
+		return no;
+		}
+	no=count(temp->left,no);
+        no=no+1;
+	no=count(temp->right,no);
+return no;
+	}
+int tree::range(node *temp,int k1,int k2,int no)
+	{
+		if(temp==NULL)
+			{
+			return no;
+			}
+		no=range(temp->left,k1,k2,no);
+		if((temp->data>=k1) && (temp->data<=k2))
+		no=no+1;
+		no=range(temp->right,k1,k2,no);
+	return no;
+	}			
+int main()
+	{
+	int k1,k2;
+	tree t;
+	t.insert(56);
+	t.insert(43);
+	t.insert(2);
+	t.insert(643);
+	t.insert(666);
+	t.insert(10);
+	t.insert(42);
+	t.insert(87);
+	t.insert(7);
+	t.insert(74);
+	t.insert(90);
+	t.display(t.root);
+	cout<<endl;
+	cout<<"The total no. of elements in it is "<<t.count(t.root,0)<<endl;
+        cout<<"Enter k1 and k2"<<endl;
+	cin>>k1>>k2;
+	cout<<"The required no. is"<<t.range(t.root,k1,k2,0);
+	return 0;
+        }
+	
+
+			
