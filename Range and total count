@@ -21,7 +21,7 @@ class tree
 {	
 	public:
 	node *root;
-	tree(){
+	tree(){								//constructor for tree class.		
 		root = NULL;
 	      }
 	void insert(int x);
@@ -29,35 +29,35 @@ class tree
 	int count(node *temp,int no);
 	int range(node *temp,int k1,int k2,int no);
 };
-void tree::insert(int x)
+void tree::insert(int x)						
 	{
-	node *temp=new node;
-	temp->data=x;
-	temp->right=NULL;
-	temp->left=NULL;
+	node *temp=new node;						//new node is created.
+	temp->data=x;							
+	temp->right=NULL;						//initially, the parent,left and right of the new node is set as null.
+	temp->left=NULL;	
 	temp->parent=NULL;
-	node *current=root;
-	node *parent=NULL;
-		if(root==NULL)
+	node *current=root;						//two node pointers are created to reach the desired position.
+	node *parent=NULL;									
+		if(root==NULL)						//initiallly if tree is empty.
 			{
-			root=temp;
+			root=temp;					//tree got a root as temp.
 			}
 		else
 			{
-			while(1)
+			while(1)					//the loop continues without any condition.
 				{
-				parent=current;
-					if(current->data>x)
+				parent=current;				//parent is set to current.
+					if(current->data>x)		//conditions for sliders to move.
 						{
-						current=current->left;
-						if(current==NULL)
+						current=current->left;	
+						if(current==NULL)	//if the desired location is obtained.
 							{
-							temp->parent=parent;
-							parent->left=temp;
-							return;
+							temp->parent=parent;//temp's parent is set to the parent.
+							parent->left=temp;//parent's left stores temp.
+							return;		//function ceases to operate from this point.
 							}
 						}
-					else
+					else				//if current->data!>x.
 						{
 						current=current->right;
 						if(current==NULL)
@@ -72,27 +72,27 @@ void tree::insert(int x)
 }
 void tree::display(node *temp)
 	{
-	if(temp==NULL)
-	   return;
-	display(temp->left);
+	if(temp==NULL)				//consition for function to break.
+	   return;							
+	display(temp->left);			//for printing in inorder,  we should print in the below order.
 	cout<<temp->data<<" ";
 	display(temp->right);
 	}
-int tree::count(node *temp,int no)
+int tree::count(node *temp,int no)		//to count the no. of nodes.
 	{
-	 if(temp==NULL)
+	 if(temp==NULL)				//when a leaf node is encountered, rhe function breaks and return the number.
 		{
 		return no;
 		}
-	no=count(temp->left,no);
-        no=no+1;
-	no=count(temp->right,no);
-return no;
+	no=count(temp->left,no);		//calling the function recursively.
+        no=no+1;				//for each node, one increment is done in no 
+	no=count(temp->right,no);		
+return no;					//the number is returned at the end.
 	}
-int tree::range(node *temp,int k1,int k2,int no)
+int tree::range(node *temp,int k1,int k2,int no)//range function.
 	{
-		if(temp==NULL)
-			{
+		if(temp==NULL)			//the logic is exactly same here as that of count function, but there is a slight modification.
+			{			// if and only if the data of the temp lies between two prespecified numbers the increment is done.
 			return no;
 			}
 		no=range(temp->left,k1,k2,no);
